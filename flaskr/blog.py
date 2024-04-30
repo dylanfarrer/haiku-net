@@ -10,13 +10,18 @@ bp = Blueprint("blog", __name__)
 @bp.route("/")
 def index():
     """Renders home page."""
+    page = request.args.get("page", 1, type=int)
+    per_page = 5
+    offset = (page - 1) * per_page
     db = get_db()
     posts = db.execute(
         "SELECT p.id, title, body, created, author_id, username"
         " FROM post p JOIN user u ON p.author_id = u.id"
         " ORDER BY created DESC"
+        " LIMIT ? OFFSET ?",
+        (per_page, offset),
     ).fetchall()
-    return render_template("blog/index.html", posts=posts)
+    return render_template("blog/index.html", posts=posts, page=page, per_page=per_page)
 
 
 @bp.route("/create", methods=("GET", "POST"))
