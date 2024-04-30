@@ -1,13 +1,20 @@
 import sqlite3
+import datetime
 
 import click
 from flask import current_app, g
+
+def convert_timestamp(val):
+    """Convert Unix epoch timestamp to datetime.datetime object."""
+    return datetime.datetime.strptime(val.decode('utf-8'), '%Y-%m-%d %H:%M:%S')
+
+sqlite3.register_converter("timestamp", convert_timestamp)
 
 def get_db():
     if 'db' not in g:
         g.db = sqlite3.connect(
             current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
+            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES
         )
         g.db.row_factory = sqlite3.Row
     
