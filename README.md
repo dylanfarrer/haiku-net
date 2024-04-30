@@ -5,7 +5,7 @@ The beginnings of a website / social media / platform that lets users interact o
 # running
 ```bash
 # if not already created
-python -m venve .venv
+python -m venv .venv
 
 source .venv/bin/activate
 
