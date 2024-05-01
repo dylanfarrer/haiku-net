@@ -4,6 +4,12 @@ from werkzeug.exceptions import abort
 from flaskr.auth import login_required
 from flaskr.db import get_db
 
+import string
+import nltk
+from nltk.corpus import cmudict
+
+nltk.download('cmudict')
+
 bp = Blueprint("blog", __name__)
 
 
@@ -35,6 +41,12 @@ def create():
 
         if not title:
             error = "Title is required."
+        elif not body:
+            error = "Body is required."
+        elif is_text_a_haiku(body) is False:
+            error = ("Non-haiku detected! Are there 3 'lines' separated by commas, "
+                    "the first being 5 syllables, the second being 7, and the third"
+                    " being 5. The words must also be real...")
 
         if error is not None:
             flash(error)
@@ -107,3 +119,40 @@ def delete(id):
     db.execute("DELETE FROM post WHERE id = ?", (id,))
     db.commit()
     return redirect(url_for("blog.index"))
+
+
+def count_syllables_in_word_list(words):
+    syllable_count = 0
+    d = cmudict.dict()
+    for word in words:
+        if word.lower() in d:
+            syllable_count += max([len([y for y in x if (y[-1]).isdigit()]) for x in d[word.lower()]])
+    
+    return syllable_count
+
+def remove_punctuation(strings):
+    return [s for s in strings if not all(char in string.punctuation for char in s)]
+
+def is_text_a_haiku(text):
+    if text[-1] in string.punctuation:
+        text = text[:-1]
+
+    if text.count(',') != 2:
+        return False
+
+    lines = text.split(',')
+    print(lines)
+
+    if len(lines) != 3:
+        return False
+
+    lines[0] = remove_punctuation(nltk.word_tokenize(lines[0]))
+    lines[1] = remove_punctuation(nltk.word_tokenize(lines[1]))
+    lines[2] = remove_punctuation(nltk.word_tokenize(lines[2]))
+
+    if count_syllables_in_word_list(lines[0]) != 5 or \
+       count_syllables_in_word_list(lines[1]) != 7 or \
+       count_syllables_in_word_list(lines[2]) != 5:
+        return False
+
+    return True
