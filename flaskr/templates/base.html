@@ -2,7 +2,9 @@
 <title>{% block title %}{% endblock %} - Haiku Net</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <nav>
-  <h1><a href="{{ url_for('blog.index') }}">Haiku Net</a></h1>
+  <h1 class="title"><a href="{{ url_for('blog.index') }}">Haiku Net</a></h1>
+  <h1 class="title" , style="font-size: smaller;">The online platform, to write and to read Haikus, have fun and enjoy.
+  </h1>
   <ul>
     {% if g.user %}
     <li><a href="{{ url_for('user.view', username=g.user['username']) }}">Your Profile</a>
