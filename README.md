@@ -10,6 +10,8 @@ python -m venv .venv
 source .venv/bin/activate
 
 pip install -e .
+# if not already initialised
+flask --app flaskr init-db
 flask --app flaskr run --debugger
 ```
 

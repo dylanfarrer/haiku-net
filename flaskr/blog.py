@@ -122,13 +122,15 @@ def delete(id):
 
 
 def count_syllables_in_word_list(words):
-    syllable_count = 0
+    high_syllable_count = 0
+    low_syllable_count = 0
     d = cmudict.dict()
     for word in words:
         if word.lower() in d:
-            syllable_count += max([len([y for y in x if (y[-1]).isdigit()]) for x in d[word.lower()]])
+            high_syllable_count += max([len([y for y in x if (y[-1]).isdigit()]) for x in d[word.lower()]])
+            low_syllable_count += min([len([y for y in x if (y[-1]).isdigit()]) for x in d[word.lower()]])
     
-    return syllable_count
+    return low_syllable_count, high_syllable_count
 
 def remove_punctuation(strings):
     return [s for s in strings if not all(char in string.punctuation for char in s)]
@@ -150,9 +152,13 @@ def is_text_a_haiku(text):
     lines[1] = remove_punctuation(nltk.word_tokenize(lines[1]))
     lines[2] = remove_punctuation(nltk.word_tokenize(lines[2]))
 
-    if count_syllables_in_word_list(lines[0]) != 5 or \
-       count_syllables_in_word_list(lines[1]) != 7 or \
-       count_syllables_in_word_list(lines[2]) != 5:
-        return False
+    for i in range(3):
+        low, high = count_syllables_in_word_list(lines[i])
+        if i == 1:
+            if low > 7 or high < 7:
+                return False
+        else:
+            if low < 5 or high > 5:
+                return False
 
     return True
