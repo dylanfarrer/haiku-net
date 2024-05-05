@@ -1,5 +1,5 @@
 <!doctype html>
-<title>{% block title %}Haiku Net{% endblock %}Haiku Net</title>
+<title>{% block title %}{% endblock %} - Haiku Net</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 {% block nav %}
 <nav>
@@ -10,10 +10,10 @@
     {% if g.user %}
     <li><a href="{{ url_for('user.view', username=g.user['username']) }}">Your Profile</a>
     <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-      {% else %}
+    {% else %}
     <li><a href="{{ url_for('auth.register') }}">Register</a>
     <li><a href="{{ url_for('auth.login') }}">Log In</a>
-      {% endif %}
+    {% endif %}
   </ul>
 </nav>
 {% endblock %}

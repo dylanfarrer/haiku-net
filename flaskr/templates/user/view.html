@@ -17,12 +17,77 @@
 {% endblock %}
 
 {% block content %}
+{% if g.user['username'] == user['username'] %}
+<section class="about">
+    <h3>About You</h3>
+    <div class="profile-picture">
+        <img src="{{ user['profile_picture_url'] }}" alt="Profile Picture">
+        <button onclick="toggleProfilePictureForm()">Update Profile Picture</button>
+        <form id="profilePictureForm" style="display: none;">
+            <input type="file" name="profile_picture">
+            <input type="button" value="Submit" onclick="submitProfilePicture()">
+        </form>
+    </div>
+    <div class="bio">
+        <h4>Bio</h4>
+        <p>{{ user['bio'] }}</p>
+        <p>To fill out!</p>
+        <button onclick="toggleBioForm()">Update Bio</button>
+        <form id="bioForm" style="display: none;">
+            <textarea name="bio">{{ user['bio'] }}</textarea>
+            <input type="button" value="Submit" onclick="submitBio()">
+        </form>
+    </div>
+    <div class="contact-info">
+        <h3>Contact Information</h3>
+        <ul>
+            <li>Email:</li>
+            <li>Phone:</li>
+        </ul>
+        <button onclick="toggleContactForm()">Update Contact Info</button>
+        <form id="contactForm" style="display: none;">
+            <label for="email">Email:</label>
+            <input type="email" name="email">
+            <label for="phone">Phone:</label>
+            <input type="tel" name="phone">
+            <input type="button" value="Submit" onclick="submitContact()">
+        </form>
+    </div>
+    <div class="interests">
+        <h3>Interests</h3>
+        <ul>
+            <li>To fill out!</li>
+            <li>To fill out!</li>
+        </ul>
+        <button onclick="toggleInterestsForm()">Add Interests</button>
+        <form id="interestsForm" style="display: none;">
+            <label for="interests">Add Interests:</label>
+            <input type="text" name="interests">
+            <input type="button" value="Submit" onclick="submitInterests()">
+        </form>
+    </div>
+    <div class="links">
+        <h3>Links</h3>
+        <ul>
+            <li>Link one</li>
+            <li>Link two</a></li>
+        </ul>
+        <button onclick="toggleLinksForm()">Update Links</button>
+        <form id="linksForm" style="display: none;">
+            <label for="links">Add Link:</label>
+            <input type="url" name="link">
+            <input type="button" value="Submit" onclick="submitLink()">
+        </form>
+    </div>
+</section>
+{% else %}
 <section class="about">
     <h3>About Me</h3>
     <div class="profile-picture">
         <img src="{{ user['profile_picture_url'] }}" alt="Profile Picture">
     </div>
     <div class="bio">
+        <h4>Bio</h4>
         <p>To fill out!</p>
     </div>
     <div class="contact-info">
@@ -30,7 +95,6 @@
         <ul>
             <li>Email:</li>
             <li>Phone:</li>
-            <!-- Add more contact information as needed -->
         </ul>
     </div>
     <div class="interests">
@@ -40,13 +104,96 @@
             <li>To fill out!</li>
         </ul>
     </div>
-    <div class="social-links">
-        <h3>Social Media</h3>
+    <div class="links">
+        <h3>Links</h3>
         <ul>
-            <li>X</li>
-            <li>Facebook</a></li>
-            <!-- Add more social media links as needed -->
+            <li>Link one</li>
+            <li>Link two</a></li>
         </ul>
     </div>
 </section>
+{% endif %}
+
+<script>
+    function toggleProfilePictureForm() {
+        var form = document.getElementById("profilePictureForm");
+        var button = form.previousElementSibling;
+        if (form.style.display === "none") {
+            form.style.display = "block";
+            button.innerHTML = "Hide";
+        } else {
+            form.style.display = "none";
+            button.innerHTML = "Update Profile Picture";
+        }
+    }
+
+    function toggleBioForm() {
+        var form = document.getElementById("bioForm");
+        var button = form.previousElementSibling;
+        if (form.style.display === "none") {
+            form.style.display = "block";
+            button.innerHTML = "Hide";
+        } else {
+            form.style.display = "none";
+            button.innerHTML = "Update Bio";
+        }
+    }
+
+    function toggleContactForm() {
+        var form = document.getElementById("contactForm");
+        var button = form.previousElementSibling;
+        if (form.style.display === "none") {
+            form.style.display = "block";
+            button.innerHTML = "Hide";
+        } else {
+            form.style.display = "none";
+            button.innerHTML = "Update Contact Info";
+        }
+    }
+
+    function toggleInterestsForm() {
+        var form = document.getElementById("interestsForm");
+        var button = form.previousElementSibling;
+        if (form.style.display === "none") {
+            form.style.display = "block";
+            button.innerHTML = "Hide";
+        } else {
+            form.style.display = "none";
+            button.innerHTML = "Add Interests";
+        }
+    }
+
+    function toggleLinksForm() {
+        var form = document.getElementById("linksForm");
+        var button = form.previousElementSibling;
+        if (form.style.display === "none") {
+            form.style.display = "block";
+            button.innerHTML = "Hide";
+        } else {
+            form.style.display = "none";
+            button.innerHTML = "Update Links";
+        }
+    }
+
+    function submitProfilePicture() {
+        // Handle submission
+    }
+
+    function submitBio() {
+        // Handle submission
+    }
+
+    function submitContact() {
+        // Handle submission
+    }
+
+    function submitInterests() {
+        // Handle submission
+    }
+
+    function submitLink() {
+        // Handle submission
+    }
+</script>
+
 {% endblock %}
