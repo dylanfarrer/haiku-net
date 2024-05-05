@@ -1,8 +1,9 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Haiku Net</title>
+<title>{% block title %}Haiku Net{% endblock %}Haiku Net</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% block nav %}
 <nav>
-  <h1 class="title"><a href="{{ url_for('blog.index') }}">Haiku Net</a></h1>
+  <h1 class="title"><a href="{{ url_for('homepage.index') }}">Haiku Net</a></h1>
   <h1 class="title" , style="font-size: smaller;">The online platform, to write and to read Haikus, have fun and enjoy.
   </h1>
   <ul>
@@ -15,6 +16,7 @@
       {% endif %}
   </ul>
 </nav>
+{% endblock %}
 <section class="content">
   <header>
     {% block header %}{% endblock %}

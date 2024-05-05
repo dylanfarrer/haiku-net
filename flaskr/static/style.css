@@ -19,7 +19,7 @@ body {
     background: #EBE9E1;
 }
 
-h1 {
+h1, h2, h3, h4, h5, h6 {
     font-family: "Helvetica", sans-serif;
     color: #D6536D;
     margin: 1rem 0;

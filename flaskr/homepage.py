@@ -10,7 +10,7 @@ from nltk.corpus import cmudict
 
 nltk.download('cmudict')
 
-bp = Blueprint("blog", __name__)
+bp = Blueprint("homepage", __name__)
 
 
 @bp.route("/")
@@ -27,7 +27,7 @@ def index():
         " LIMIT ? OFFSET ?",
         (per_page, offset),
     ).fetchall()
-    return render_template("blog/index.html", posts=posts, page=page, per_page=per_page)
+    return render_template("homepage/index.html", posts=posts, page=page, per_page=per_page)
 
 
 @bp.route("/create", methods=("GET", "POST"))
@@ -57,9 +57,9 @@ def create():
                 (title, body, g.user["id"]),
             )
             db.commit()
-            return redirect(url_for("blog.index"))
+            return redirect(url_for("homepage.index"))
 
-    return render_template("blog/create.html")
+    return render_template("homepage/create.html")
 
 
 def get_post(id, check_author=True):
@@ -105,9 +105,9 @@ def update(id):
                 "UPDATE post SET title = ?, body = ?" " WHERE id = ?", (title, body, id)
             )
             db.commit()
-            return redirect(url_for("blog.index"))
+            return redirect(url_for("homepage.index"))
 
-    return render_template("blog/update.html", post=post)
+    return render_template("homepage/update.html", post=post)
 
 
 @bp.route("/<int:id>/delete", methods=("POST",))
@@ -118,7 +118,7 @@ def delete(id):
     db = get_db()
     db.execute("DELETE FROM post WHERE id = ?", (id,))
     db.commit()
-    return redirect(url_for("blog.index"))
+    return redirect(url_for("homepage.index"))
 
 
 def count_syllables_in_word_list(words):

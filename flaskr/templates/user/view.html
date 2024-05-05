@@ -1,5 +1,52 @@
 {% extends 'base.html' %}
 
+{% block nav %}
+<nav>
+    <h1 class="title"><a href="{{ url_for('homepage.index') }}">Haiku Net</a></h1>
+    <h1 class="title" style="font-size: smaller;">The online platform, to write and to read Haikus, have fun and enjoy.
+    </h1>
+    <ul>
+        <li><a href="{{ url_for('homepage.index') }}">Home</a></li>
+        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+    </ul>
+</nav>
+{% endblock %}
+
 {% block header %}
 <h1>{% block title %}{{ user['username'] }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<section class="about">
+    <h3>About Me</h3>
+    <div class="profile-picture">
+        <img src="{{ user['profile_picture_url'] }}" alt="Profile Picture">
+    </div>
+    <div class="bio">
+        <p>To fill out!</p>
+    </div>
+    <div class="contact-info">
+        <h3>Contact Information</h3>
+        <ul>
+            <li>Email:</li>
+            <li>Phone:</li>
+            <!-- Add more contact information as needed -->
+        </ul>
+    </div>
+    <div class="interests">
+        <h3>Interests</h3>
+        <ul>
+            <li>To fill out!</li>
+            <li>To fill out!</li>
+        </ul>
+    </div>
+    <div class="social-links">
+        <h3>Social Media</h3>
+        <ul>
+            <li>X</li>
+            <li>Facebook</a></li>
+            <!-- Add more social media links as needed -->
+        </ul>
+    </div>
+</section>
 {% endblock %}
