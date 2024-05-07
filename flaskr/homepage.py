@@ -46,7 +46,7 @@ def create():
         elif is_text_a_haiku(body) is False:
             error = ("Non-haiku detected! Are there 3 'lines' separated by commas, "
                     "the first being 5 syllables, the second being 7, and the third"
-                    " being 5. The words must also be real...")
+                    " being 5. The words must also be in English...")
 
         if error is not None:
             flash(error)
@@ -96,6 +96,12 @@ def update(id):
 
         if not title:
             error = "Title is required."
+        elif not body:
+            error = "Body is required."
+        elif is_text_a_haiku(body) is False:
+            error = ("Non-haiku detected! Are there 3 'lines' separated by commas, "
+                    "the first being 5 syllables, the second being 7, and the third"
+                    " being 5. The words must also be in English...")
 
         if error is not None:
             flash(error)
@@ -127,8 +133,11 @@ def count_syllables_in_word_list(words):
     d = cmudict.dict()
     for word in words:
         if word.lower() in d:
-            high_syllable_count += max([len([y for y in x if (y[-1]).isdigit()]) for x in d[word.lower()]])
-            low_syllable_count += min([len([y for y in x if (y[-1]).isdigit()]) for x in d[word.lower()]])
+            max_syll = max([len([y for y in x if (y[-1]).isdigit()]) for x in d[word.lower()]])
+            min_syll = min([len([y for y in x if (y[-1]).isdigit()]) for x in d[word.lower()]])
+            high_syllable_count += max_syll
+            low_syllable_count += min_syll
+            print(word.lower() + " " + str(max_syll) + " " + str(min_syll))
     
     return low_syllable_count, high_syllable_count
 
@@ -148,9 +157,9 @@ def is_text_a_haiku(text):
     if len(lines) != 3:
         return False
 
-    lines[0] = remove_punctuation(nltk.word_tokenize(lines[0]))
-    lines[1] = remove_punctuation(nltk.word_tokenize(lines[1]))
-    lines[2] = remove_punctuation(nltk.word_tokenize(lines[2]))
+    lines[0] = remove_punctuation(lines[0].split())
+    lines[1] = remove_punctuation(lines[1].split())
+    lines[2] = remove_punctuation(lines[2].split())
 
     for i in range(3):
         low, high = count_syllables_in_word_list(lines[i])
